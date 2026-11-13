@@ -1,0 +1,867 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#E5EFF2">
+<title>Quiz | INNOVA TECH</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --background: #E5EFF2;
+  --white: #FFFFFF;
+  --title: #203B4A;
+  --subtitle: #64777D;
+  --cyan: #00AFC8;
+  --cyan-light: #E5F5F7;
+  --border: #DCE5E8;
+  --card: #F7FAFA;
+  --green: #39966D;
+  --green-light: #E5F4EC;
+  --red: #D56B6B;
+  --red-light: #FBEAEA;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  padding: 35px 18px;
+  background: var(--background);
+  color: var(--title);
+  font-family: 'Poppins', sans-serif;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* ENCABEZADO */
+
+.header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.logo {
+  color: var(--cyan);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 5px;
+}
+
+h1 {
+  margin: 12px 0;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.subtitle {
+  max-width: 550px;
+  margin: auto;
+  color: var(--subtitle);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.header-line {
+  width: 55px;
+  height: 3px;
+  margin: 23px auto 0;
+  background: var(--cyan);
+  border-radius: 10px;
+}
+
+/* INFORMACIÓN Y PROGRESO */
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--subtitle);
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.progress {
+  width: 100%;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #CEDDE2;
+  margin-bottom: 35px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--cyan);
+  border-radius: 20px;
+  transition: width .3s ease;
+}
+
+/* CATEGORÍAS */
+
+.category-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 35px 0 17px;
+  color: var(--title);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.category-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #B9CCD2;
+}
+
+/* TARJETAS */
+
+.question-card {
+  padding: 25px;
+  margin-bottom: 17px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  box-shadow: 0 5px 20px rgba(32, 59, 74, .045);
+  transition: .2s ease;
+}
+
+.question-card:hover {
+  box-shadow: 0 7px 24px rgba(32, 59, 74, .08);
+}
+
+.number {
+  color: var(--cyan);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.question-card h3 {
+  margin: 10px 0 18px;
+  color: var(--title);
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 600;
+}
+
+/* OPCIONES */
+
+.option {
+  display: block;
+  width: 100%;
+  padding: 13px 15px;
+  margin: 9px 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: #344D59;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.option:hover:not(:disabled) {
+  border-color: var(--cyan);
+  background: var(--cyan-light);
+}
+
+.option.selected {
+  border: 2px solid var(--cyan);
+  background: var(--cyan-light);
+  font-weight: 600;
+}
+
+.option:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.option.correct {
+  border: 2px solid var(--green);
+  background: var(--green-light);
+  color: #276B4B;
+}
+
+.option.incorrect {
+  border: 2px solid var(--red);
+  background: var(--red-light);
+  color: #A64444;
+}
+
+/* BOTONES */
+
+.main-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 11px;
+  background: var(--title);
+  color: var(--white);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.main-btn:hover {
+  background: #31566B;
+  transform: translateY(-2px);
+}
+
+.main-btn:focus-visible,
+.option:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+/* RESULTADO */
+
+.result {
+  display: none;
+  margin-top: 30px;
+  padding: 35px 25px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(32, 59, 74, .05);
+}
+
+.result-label {
+  color: var(--cyan);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.score {
+  margin: 12px 0;
+  color: var(--cyan);
+  font-size: 48px;
+  font-weight: 800;
+}
+
+.result h2 {
+  margin-bottom: 9px;
+  font-size: 19px;
+}
+
+.result p {
+  color: var(--subtitle);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.result-details {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  text-align: left;
+}
+
+.result-details h3 {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.category-result {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.category-result strong {
+  color: var(--cyan);
+  white-space: nowrap;
+}
+
+/* PIE DE PÁGINA */
+
+footer {
+  margin-top: 40px;
+  color: var(--subtitle);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-align: center;
+  line-height: 2;
+}
+
+footer span {
+  display: block;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 550px) {
+  body {
+    padding: 25px 13px;
+  }
+
+  .question-card {
+    padding: 19px;
+  }
+
+  .question-card h3 {
+    font-size: 14px;
+  }
+
+  .option {
+    font-size: 12px;
+  }
+
+  .category-title {
+    font-size: 14px;
+  }
+
+  .result {
+    padding: 25px 17px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+
+  <header class="header">
+    <div class="logo">INNOVA TECH</div>
+
+    <h1>¿CUÁNTO SABÉS?</h1>
+
+    <p class="subtitle">
+      Poné a prueba tus conocimientos sobre los sistemas tecnológicos
+      que están transformando el mundo.
+    </p>
+
+    <div class="header-line"></div>
+  </header>
+
+  <div class="progress-info">
+    <span id="progress-text">0 de 15 preguntas respondidas</span>
+    <span>QUIZ · 2026</span>
+  </div>
+
+  <div
+    class="progress"
+    role="progressbar"
+    aria-label="Progreso del cuestionario"
+    aria-valuemin="0"
+    aria-valuemax="15"
+    aria-valuenow="0"
+    id="progress-container"
+  >
+    <div class="progress-bar" id="progress"></div>
+  </div>
+
+  <section id="quiz" aria-label="Cuestionario tecnológico"></section>
+
+  <button class="main-btn" id="finish">
+    COMPROBAR RESPUESTAS
+  </button>
+
+  <section class="result" id="result" aria-live="polite">
+    <div class="result-label">TU RESULTADO FINAL</div>
+
+    <div class="score" id="score">0 / 15</div>
+
+    <h2 id="message"></h2>
+
+    <p id="detail"></p>
+
+    <div class="result-details">
+      <h3>RESULTADOS POR TEMÁTICA</h3>
+      <div id="category-results"></div>
+    </div>
+
+    <button class="main-btn" id="restart">
+      VOLVER A INTENTAR
+    </button>
+  </section>
+
+  <footer>
+    TECNOLOGÍA QUE TRANSFORMA EL MUNDO
+    <span>EPET N.º 1 · 2026</span>
+  </footer>
+
+</main>
+
+<script>
+/* ==================================
+   PREGUNTAS DEL CUESTIONARIO
+================================== */
+
+const questions = [
+
+  // RIEGO AUTOMATIZADO
+
+  {
+    category: "RIEGO AUTOMATIZADO",
+    question: "¿Qué elemento detecta la cantidad de agua presente en el suelo?",
+    options: [
+      "Sensor de humedad",
+      "Sensor de movimiento",
+      "Sensor de temperatura"
+    ],
+    answer: 0
+  },
+  {
+    category: "RIEGO AUTOMATIZADO",
+    question: "¿Cuál es la función principal de un controlador de riego?",
+    options: [
+      "Almacenar agua",
+      "Procesar datos y controlar el funcionamiento del sistema",
+      "Medir la altura de las plantas"
+    ],
+    answer: 1
+  },
+  {
+    category: "RIEGO AUTOMATIZADO",
+    question: "¿Qué sucede cuando el sistema detecta que el suelo necesita agua?",
+    options: [
+      "Se apagan todos los sensores",
+      "Se activa una alarma de incendio",
+      "Se pueden abrir las válvulas para permitir el riego"
+    ],
+    answer: 2
+  },
+  {
+    category: "RIEGO AUTOMATIZADO",
+    question: "¿Qué ventaja ofrece el riego automatizado frente al riego manual?",
+    options: [
+      "Permite optimizar el uso del agua",
+      "Elimina la necesidad de agua",
+      "Impide el crecimiento de las plantas"
+    ],
+    answer: 0
+  },
+  {
+    category: "RIEGO AUTOMATIZADO",
+    question: "¿Qué componentes permiten distribuir el agua hacia los cultivos?",
+    options: [
+      "Un monitor",
+      "Las tuberías y los emisores de riego",
+      "Una base de datos"
+    ],
+    answer: 1
+  },
+
+  // EDIFICIOS INTELIGENTES
+
+  {
+    category: "EDIFICIOS INTELIGENTES",
+    question: "¿Qué es un edificio inteligente?",
+    options: [
+      "Un edificio construido exclusivamente con vidrio",
+      "Una construcción sin instalaciones eléctricas",
+      "Una edificación que utiliza tecnología para automatizar sus funciones"
+    ],
+    answer: 2
+  },
+  {
+    category: "EDIFICIOS INTELIGENTES",
+    question: "¿Qué función cumplen los sensores de movimiento?",
+    options: [
+      "Detectan la presencia o el movimiento de personas",
+      "Miden el consumo de agua de los cultivos",
+      "Registran historias clínicas"
+    ],
+    answer: 0
+  },
+  {
+    category: "EDIFICIOS INTELIGENTES",
+    question: "¿Qué sistema permite regular automáticamente la temperatura interior?",
+    options: [
+      "Sistema de riego",
+      "Sistema de climatización inteligente",
+      "Sistema de gestión hospitalaria"
+    ],
+    answer: 1
+  },
+  {
+    category: "EDIFICIOS INTELIGENTES",
+    question: "¿Qué beneficio puede ofrecer la iluminación automatizada?",
+    options: [
+      "Aumentar el consumo innecesariamente",
+      "Eliminar la iluminación natural",
+      "Adaptar la iluminación según la ocupación y las condiciones del ambiente"
+    ],
+    answer: 2
+  },
+  {
+    category: "EDIFICIOS INTELIGENTES",
+    question: "¿Qué tecnología permite conectar diferentes dispositivos de un edificio para intercambiar información?",
+    options: [
+      "Internet de las cosas (IoT)",
+      "Procesamiento de texto",
+      "Diseño gráfico"
+    ],
+    answer: 0
+  },
+
+  // SOFTWARE HOSPITALARIOS
+
+  {
+    category: "SOFTWARE HOSPITALARIOS",
+    question: "¿Cuál es el objetivo principal de un software hospitalario?",
+    options: [
+      "Controlar el riego de jardines",
+      "Organizar y gestionar información y procesos de una institución de salud",
+      "Diseñar planos arquitectónicos"
+    ],
+    answer: 1
+  },
+  {
+    category: "SOFTWARE HOSPITALARIOS",
+    question: "¿Dónde se almacena la información registrada en el sistema?",
+    options: [
+      "En los sensores de movimiento",
+      "En las válvulas automáticas",
+      "En una base de datos"
+    ],
+    answer: 2
+  },
+  {
+    category: "SOFTWARE HOSPITALARIOS",
+    question: "¿Qué información puede gestionar un módulo de turnos?",
+    options: [
+      "Fechas, horarios y asignación de citas médicas",
+      "Temperatura de las habitaciones",
+      "Humedad del suelo"
+    ],
+    answer: 0
+  },
+  {
+    category: "SOFTWARE HOSPITALARIOS",
+    question: "¿Por qué es importante establecer permisos de acceso?",
+    options: [
+      "Para que cualquier persona pueda modificar los datos",
+      "Para limitar el acceso a la información según las funciones autorizadas",
+      "Para eliminar las historias clínicas"
+    ],
+    answer: 1
+  },
+  {
+    category: "SOFTWARE HOSPITALARIOS",
+    question: "¿Qué medida ayuda a proteger la información almacenada?",
+    options: [
+      "Compartir las contraseñas",
+      "Eliminar los controles de acceso",
+      "Utilizar autenticación, permisos y copias de seguridad"
+    ],
+    answer: 2
+  }
+
+];
+
+/* ==================================
+   VARIABLES Y ELEMENTOS
+================================== */
+
+let selected = {};
+let completed = false;
+
+const quiz = document.getElementById("quiz");
+const progress = document.getElementById("progress");
+const progressText = document.getElementById("progress-text");
+const progressContainer = document.getElementById("progress-container");
+
+const finishButton = document.getElementById("finish");
+const restartButton = document.getElementById("restart");
+const result = document.getElementById("result");
+
+/* ==================================
+   MOSTRAR PREGUNTAS
+================================== */
+
+function renderQuiz() {
+
+  quiz.innerHTML = "";
+
+  let currentCategory = "";
+
+  questions.forEach((q, i) => {
+
+    // Crear encabezado de categoría
+
+    if (q.category !== currentCategory) {
+
+      currentCategory = q.category;
+
+      const heading = document.createElement("h2");
+      heading.className = "category-title";
+      heading.textContent = currentCategory;
+
+      quiz.appendChild(heading);
+    }
+
+    // Crear tarjeta
+
+    const card = document.createElement("article");
+    card.className = "question-card";
+
+    const number = document.createElement("div");
+    number.className = "number";
+    number.textContent =
+      `PREGUNTA ${i + 1} DE ${questions.length}`;
+
+    const title = document.createElement("h3");
+    title.textContent = q.question;
+
+    card.appendChild(number);
+    card.appendChild(title);
+
+    // Crear opciones
+
+    q.options.forEach((option, j) => {
+
+      const button = document.createElement("button");
+
+      button.className = "option";
+
+      button.textContent =
+        `${String.fromCharCode(65 + j)}) ${option}`;
+
+      if (selected[i] === j) {
+        button.classList.add("selected");
+      }
+
+      // Mostrar corrección después de finalizar
+
+      if (completed) {
+
+        button.disabled = true;
+
+        if (j === q.answer) {
+          button.classList.add("correct");
+        }
+
+        else if (selected[i] === j) {
+          button.classList.add("incorrect");
+        }
+      }
+
+      button.addEventListener("click", () => {
+
+        if (completed) return;
+
+        selected[i] = j;
+
+        renderQuiz();
+
+      });
+
+      card.appendChild(button);
+
+    });
+
+    quiz.appendChild(card);
+
+  });
+
+  updateProgress();
+
+}
+
+/* ==================================
+   BARRA DE PROGRESO
+================================== */
+
+function updateProgress() {
+
+  const answered = Object.keys(selected).length;
+
+  const percentage =
+    (answered / questions.length) * 100;
+
+  progress.style.width = `${percentage}%`;
+
+  progressText.textContent =
+    `${answered} de ${questions.length} preguntas respondidas`;
+
+  progressContainer.setAttribute("aria-valuenow", answered);
+
+}
+
+/* ==================================
+   COMPROBAR RESPUESTAS
+================================== */
+
+function finishQuiz() {
+
+  if (Object.keys(selected).length !== questions.length) {
+
+    alert(
+      "¡Todavía te faltan preguntas! Respondé las 15 para conocer tu resultado."
+    );
+
+    return;
+  }
+
+  completed = true;
+
+  let score = 0;
+
+  const categoryScores = {};
+
+  questions.forEach((q, i) => {
+
+    if (!categoryScores[q.category]) {
+      categoryScores[q.category] = {
+        correct: 0,
+        total: 0
+      };
+    }
+
+    categoryScores[q.category].total++;
+
+    if (selected[i] === q.answer) {
+
+      score++;
+
+      categoryScores[q.category].correct++;
+
+    }
+
+  });
+
+  renderQuiz();
+
+  finishButton.style.display = "none";
+  result.style.display = "block";
+
+  // Puntaje
+
+  document.getElementById("score").textContent =
+    `${score} / ${questions.length}`;
+
+  // Mensaje final
+
+  let message;
+
+  if (score === 15) {
+    message = "¡Excelente! Dominás los tres sistemas.";
+  }
+
+  else if (score >= 12) {
+    message = "¡Sobresaliente! Tenés un gran conocimiento tecnológico.";
+  }
+
+  else if (score >= 9) {
+    message = "¡Muy bien! Comprendés los principales conceptos.";
+  }
+
+  else if (score >= 6) {
+    message = "¡Buen intento! Seguí aprendiendo sobre tecnología.";
+  }
+
+  else {
+    message = "¡No te rindas! Siempre hay algo nuevo por aprender.";
+  }
+
+  document.getElementById("message").textContent = message;
+
+  document.getElementById("detail").textContent =
+    `Obtuviste ${score} respuestas correctas de un total de ${questions.length}.`;
+
+  // Resultados por temática
+
+  const categoryContainer =
+    document.getElementById("category-results");
+
+  categoryContainer.innerHTML = "";
+
+  Object.entries(categoryScores).forEach(([name, data]) => {
+
+    const row = document.createElement("div");
+    row.className = "category-result";
+
+    const label = document.createElement("span");
+    label.textContent = name;
+
+    const value = document.createElement("strong");
+    value.textContent =
+      `${data.correct} / ${data.total}`;
+
+    row.appendChild(label);
+    row.appendChild(value);
+
+    categoryContainer.appendChild(row);
+
+  });
+
+  result.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+}
+
+/* ==================================
+   REINICIAR CUESTIONARIO
+================================== */
+
+function restartQuiz() {
+
+  selected = {};
+  completed = false;
+
+  result.style.display = "none";
+  finishButton.style.display = "block";
+
+  renderQuiz();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+/* ==================================
+   EVENTOS E INICIO
+================================== */
+
+finishButton.addEventListener("click", finishQuiz);
+
+restartButton.addEventListener("click", restartQuiz);
+
+renderQuiz();
+
+</script>
+
+</body>
+</html>
